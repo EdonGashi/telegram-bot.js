@@ -1,0 +1,5 @@
+﻿{
+  "evalUser": "[USERNAME]",
+  "interval": 1000,
+  "key": "[API KEY]"
+}
