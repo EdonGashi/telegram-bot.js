@@ -25,7 +25,10 @@ function setHandler(type, callback) {
 
 function onUpdate(update, bot) {
     const updateType = cast.int(update.Message.Type);
-    handlers[updateType](update, bot);
+    const handler = handlers[updateType];
+    if (handler) {
+        handler(update, bot);
+    }
 }
 
 const botInfo = botStarter.start(config.key, onUpdate, config.interval);
