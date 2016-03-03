@@ -4,7 +4,8 @@ const core = require('core');
 const cast = require('cast');
 const console = require('console');
 const botStarter = require('./bot.js');
-const messageType = botStarter.messageType;
+const telegram = botStarter.telegram;
+const messageType = telegram.Types.MessageType;
 const config = require('./bot-config.json');
 
 console.log(`Started bot on poll rate ${config.interval}`);
@@ -35,6 +36,8 @@ const botInfo = botStarter.start(config.key, onUpdate, config.interval);
 
 global.controller = botInfo.controller;
 global.bot = botInfo.bot;
+
+global.telegram = telegram;
 global.messageType = messageType;
 global.getHandler = getHandler;
 global.setHandler = setHandler;

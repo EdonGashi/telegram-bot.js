@@ -45,16 +45,16 @@ function addTextCommand(regex, callback) {
     textCommands.push({ regex: regex, callback: callback });
 }
 
-//addTextCommand(/^\/eval (.+)/, function (msg, reply, match, update) {
-//    if (evalUser && update.Message.From.Username === evalUser) {
-//        const code = match[1];
-//        repl.evaluate(code, function (result) {
-//            writer.clear();
-//            explore(result);
-//            reply(writer.getText());
-//        }, reply);
-//    }
-//});
+addTextCommand(/^\/eval (.+)/, function (msg, reply, match, update) {
+    if (evalUser && update.Message.From.Username === evalUser) {
+        const code = match[1];
+        repl.evaluate(code, function (result) {
+            writer.clear();
+            explore(result);
+            reply(writer.getText());
+        }, reply);
+    }
+});
 
 global.textCommands = textCommands;
 global.addTextCommand = addTextCommand;

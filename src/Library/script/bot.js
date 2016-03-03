@@ -1,10 +1,9 @@
 ﻿'use strict';
 const timer = require('timer');
-const botLib = require('./Telegram.Bot.dll');
-const messageType = botLib.getEnum('Telegram.Bot.Types.MessageType');
+const telegram = require('./Telegram.Bot.dll').Telegram.Bot;
 
 function start(api, callback, interval) {
-    const bot = botLib.create('Telegram.Bot.Api', api);
+    const bot = new telegram.Api(api);
     var offset = 0;
     function getUpdates() {
         var updates;
@@ -25,6 +24,5 @@ function start(api, callback, interval) {
     return { controller: timer.setInterval(getUpdates, interval), bot: bot };
 }
 
-exports.lib = botLib;
+exports.telegram = telegram;
 exports.start = start;
-exports.messageType = messageType;
