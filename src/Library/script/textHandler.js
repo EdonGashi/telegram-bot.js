@@ -7,6 +7,16 @@ const explore = require('explore').create(writer, {});
 
 const textCommands = [];
 
+function isValidEvalUser(user) {
+    if (evalUser) {
+        if (typeof evalUser === 'string') {
+            return user === evalUser;
+        } else {
+            return evalUser.find(element => element === user);
+        }
+    } else return false;
+}
+
 function onTextUpdate(update, bot) {
     const text = update.Message.Text;
     function reply(msg) {
@@ -32,7 +42,7 @@ function onTextUpdate(update, bot) {
         return;
     }
 
-    if (evalUser && update.Message.From.Username === evalUser) {
+    if (isValidEvalUser(update.Message.From.Username)) {
         repl.evaluate(text, function (result) {
             writer.clear();
             explore(result);
@@ -43,10 +53,11 @@ function onTextUpdate(update, bot) {
 
 function addTextCommand(regex, callback) {
     textCommands.push({ regex: regex, callback: callback });
+    return `Added text command with pattern ${regex.toString()}`;
 }
 
 addTextCommand(/^\/eval (.+)/, function (msg, reply, match, update) {
-    if (evalUser && update.Message.From.Username === evalUser) {
+    if (isValidEvalUser(update.Message.From.Username)) {
         const code = match[1];
         repl.evaluate(code, function (result) {
             writer.clear();
